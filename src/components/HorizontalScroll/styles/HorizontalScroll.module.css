@@ -1,0 +1,65 @@
+.tallContainer {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    height: 400vh;
+    /* 4x viewport height to allow for long scroll */
+    position: relative;
+    background: #000;
+    /* Branding: Black background */
+}
+
+.stickyWrapper {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.cardContainer {
+    display: flex;
+    gap: 50px;
+    padding-left: 50px;
+}
+
+.card {
+    width: 400px;
+    height: 500px;
+    background: rgba(20, 20, 20, 0.9);
+    border: 1px solid rgba(196, 137, 18, 0.2);
+    /* Branding: Gold border */
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.card:hover {
+    transform: scale(1.02);
+    border-color: rgba(196, 137, 18, 0.6);
+}
+
+.cardId {
+    font-size: 10rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.05);
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    line-height: 1;
+}
+
+.cardTitle {
+    font-size: 2rem;
+    color: white;
+    font-weight: bold;
+    z-index: 2;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
