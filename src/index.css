@@ -22,7 +22,7 @@ h1 {
 .pages {
   width: 100%;
   max-width: 1000px;
-  height: 100vh;
+  min-height: 100vh;
   background: var(--primary-color);
   display: flex;
   flex-direction: column;

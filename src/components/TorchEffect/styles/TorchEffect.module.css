@@ -1,0 +1,109 @@
+.container {
+    width: 100vw;
+    /* Romper el ancho del contenedor padre */
+    margin-left: calc(-50vw + 50%);
+    /* Centrar respecto al viewport */
+    margin-top: 100vh;
+    /* Bajarlo para que no quede debajo del Hero (que es absolute) */
+
+    min-height: 100vh;
+    /* Ocupa al menos toda la pantalla */
+    background-color: var(--secondary-color, #000);
+    /* Usa variable global si existe */
+    color: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    /* overflow: hidden; */
+    /* A veces mejor ocultarlo, pero cuidado con tooltips */
+    cursor: none;
+    /* Cursor invisible para potenciar el efecto linterna */
+}
+
+/* Capa Oscura: Siempre visible pero apagada */
+.darkLayer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 80%;
+    user-select: none;
+}
+
+.titleDark {
+    font-size: 4vw;
+    font-weight: 900;
+    text-align: center;
+    line-height: 1.1;
+    color: #333;
+    /* Texto apagado */
+}
+
+.subtitleDark {
+    font-size: 2vw;
+    font-weight: 400;
+    text-align: center;
+    line-height: 1.4;
+    color: #222;
+}
+
+/* Capa de Luz: Se revela con la máscara */
+.lightLayer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    /* Permite clicks a través si fuera necesario */
+    /* El mask-image se inyecta vía JS/Framer */
+}
+
+.lightContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 80%;
+}
+
+.titleLight {
+    font-size: 4vw;
+    font-weight: 900;
+    text-align: center;
+    line-height: 1.1;
+
+    /* Branding Gradient: Gold to bright yellow/white */
+    background: linear-gradient(45deg, var(--primary-color, #c48912), #ffffff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    filter: drop-shadow(0 0 15px rgba(196, 137, 18, 0.4));
+}
+
+.subtitleLight {
+    font-size: 2vw;
+    font-weight: 400;
+    text-align: center;
+    line-height: 1.4;
+    color: #fff;
+}
+
+/* Responsividad básica para textos */
+@media (max-width: 768px) {
+
+    .titleDark,
+    .titleLight {
+        font-size: 8vw;
+    }
+
+    .subtitleDark,
+    .subtitleLight {
+        font-size: 4vw;
+    }
+}
