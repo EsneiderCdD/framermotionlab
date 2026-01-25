@@ -1,9 +1,10 @@
+import MouseParallax from '../components/Hero/MouseParallax';
 
 function Home() {
 
   return (
     <>
-      <h2>Home</h2>
+      <MouseParallax />
     </>
   )
 }
