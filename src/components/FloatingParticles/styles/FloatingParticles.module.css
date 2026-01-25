@@ -1,0 +1,61 @@
+.container {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    min-height: 100vh;
+
+    /* Branding: Fondo oscuro con toque sutil dorado */
+    background: radial-gradient(circle at top right, #1a1500 0%, #000000 60%);
+    position: relative;
+    display: flex;
+    /* justify-content: center;  <-- Quitamos el centrado horizontal forzado */
+    align-items: center;
+    overflow: hidden;
+    /* Esto corta las partículas que se salen, evitando scroll */
+}
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    /* background: white; <-- Eliminamos para controlar color vía JS o aquí */
+    pointer-events: none;
+}
+
+.contentWrapper {
+    width: 100%;
+    max-width: 1000px;
+    /* Alineado con el resto de la web */
+    margin: 0 auto;
+    padding: 0 2rem;
+    z-index: 10;
+    pointer-events: none;
+    /* Dejamos que el mouse pase a través */
+}
+
+.textTitle {
+    color: var(--primary-color);
+    font-size: 5rem;
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -2px;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 30px rgba(196, 137, 18, 0.3);
+}
+
+.textSubtitle {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 300;
+    opacity: 0.8;
+    max-width: 600px;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .textTitle {
+        font-size: 3rem;
+    }
+
+    .textSubtitle {
+        font-size: 1rem;
+    }
+}
