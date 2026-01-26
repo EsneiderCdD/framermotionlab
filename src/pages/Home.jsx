@@ -3,6 +3,7 @@ import TorchEffect from '../components/TorchEffect/TorchEffect';
 import FloatingParticles from '../components/FloatingParticles/FloatingParticles';
 import TiltEffect from '../components/TiltEffect/TiltEffect';
 import HorizontalScroll from '../components/HorizontalScroll/HorizontalScroll';
+import StickyCards from '../components/StickyCards/StickyCards';
 
 function Home() {
 
@@ -13,6 +14,7 @@ function Home() {
       <FloatingParticles />
       <TiltEffect />
       <HorizontalScroll />
+      <StickyCards />
     </>
   )
 }

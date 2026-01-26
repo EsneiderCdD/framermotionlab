@@ -1,0 +1,120 @@
+.container {
+    background-color: #000;
+    /* Branding: Fondo negro */
+    padding-bottom: 50vh;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    position: relative;
+    z-index: 10;
+}
+
+.intro {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2rem;
+    letter-spacing: -2px;
+}
+
+.introTitle {
+    background: linear-gradient(to right, #c48912, #fff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+}
+
+.cardContainer {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    top: 0px;
+}
+
+.card {
+    width: 80vw;
+    max-width: 1000px;
+    height: 60vh;
+    max-height: 600px;
+    border-radius: 30px;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transform-origin: top center;
+    box-shadow: 0 -50px 100px -20px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.cardBody {
+    display: flex;
+    gap: 50px;
+    height: 100%;
+}
+
+.imagePlaceholder {
+    width: 40%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.fakeImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.card:hover .fakeImage {
+    transform: scale(1.1);
+}
+
+.textContent {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.cardTitle {
+    font-size: 3rem;
+    margin: 0;
+    margin-bottom: 20px;
+    line-height: 1;
+    font-weight: 900;
+}
+
+.cardDescription {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+    .cardBody {
+        flex-direction: column-reverse;
+        gap: 20px;
+    }
+
+    .textContent,
+    .imagePlaceholder {
+        width: 100%;
+    }
+
+    .cardTitle {
+        font-size: 2rem;
+    }
+
+    .card {
+        padding: 30px;
+        height: 75vh;
+    }
+}
