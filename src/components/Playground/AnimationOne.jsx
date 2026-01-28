@@ -4,13 +4,20 @@ import { useParallax } from '../Hero/hook/useParallax';
 import styles from './styles/AnimationOne.module.css';
 
 const AnimationOne = () => {
+    const scrollerRef = useRef(null);
     const containerRef = useRef(null);
+
+    // We track the progress of the containerRef (the long content)
+    // RELATIVE to the scrollerRef (the viewport window)
     const { scrollYProgress } = useScroll({
         target: containerRef,
+        container: scrollerRef,
         offset: ["start start", "end end"]
     });
 
     // Parallax Hook
+    // IMPORTANT: useParallax tracks window mouse by default. 
+    // Since we are in a fixed container, mouse coordinates are still valid relative to viewport.
     const { handleMouseMove, layerProps } = useParallax();
 
     // --- SCROLL ANIMATIONS (The "Story" - Growing/Shrinking) ---
@@ -55,87 +62,79 @@ const AnimationOne = () => {
 
 
     return (
-        <div
-            ref={containerRef}
-            style={{ height: '300vh', position: 'relative' }}
-            onMouseMove={handleMouseMove}
-        >
-            <div className={styles.stickyWrapper}>
-                <div className={styles.container}>
-                    <div className={styles.scene}>
+        <div ref={scrollerRef} className={styles.viewport} onMouseMove={handleMouseMove}>
+            <div ref={containerRef} className={styles.track}>
+                <div className={styles.stickyWrapper}>
+                    <div className={styles.container}>
+                        <div className={styles.scene}>
 
-                        {/* 1. BACKGROUND LAYER */}
-                        {/* Wrapper: Handles Scroll Scale & Centering */}
-                        <motion.div
-                            className={`${styles.layer} ${styles.layerDeep}`}
-                            style={{
-                                scale: deepScale,
-                                opacity: deepOpacity,
-                                x: "-50%", // Always centered
-                                y: "-50%",
-                                border: 'none',
-                                background: 'transparent'
-                            }}
-                        >
-                            {/* Child: Handles Damped Parallax */}
+                            {/* 1. BACKGROUND LAYER */}
                             <motion.div
+                                className={`${styles.layer} ${styles.layerDeep}`}
                                 style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    x: deepX,
-                                    y: deepY
+                                    scale: deepScale,
+                                    opacity: deepOpacity,
+                                    x: "-50%",
+                                    y: "-50%",
+                                    border: 'none',
+                                    background: 'transparent'
                                 }}
-                                className={styles.visualDeep}
-                            />
-                        </motion.div>
-
-                        {/* 2. TEXT LAYER */}
-                        {/* Wrapper: Handles Centering (No scroll scale on text itself usually, or strictly static) */}
-                        <motion.div
-                            className={`${styles.layer} ${styles.layerMid}`}
-                            style={{
-                                x: "-50%", // FIXED: Center the wrapper properly
-                                y: "-50%",
-                            }}
-                        >
-                            {/* Child: Handles Damped Parallax */}
-                            <motion.div style={{ x: midX, y: midY }}>
-                                <h2 className={styles.titleDark}>
-                                    Los pequeños detalles<br />
-                                    construyen grandes momentos
-                                </h2>
-                                <p className={styles.subtitleDark}>
-                                    y la verdadera magia reside<br />
-                                    en lo que a veces no vemos.
-                                </p>
+                            >
+                                <motion.div
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        x: deepX,
+                                        y: deepY
+                                    }}
+                                    className={styles.visualDeep}
+                                />
                             </motion.div>
-                        </motion.div>
 
-                        {/* 3. FRONT SPHERE LAYER */}
-                        {/* Wrapper: Handles Scroll Scale, Color & Centering */}
-                        <motion.div
-                            className={`${styles.layer} ${styles.layerFront}`}
-                            style={{
-                                scale: frontScale,
-                                backgroundColor: frontColor,
-                                x: "-50%", // Always centered
-                                y: "-50%",
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                            }}
-                        >
-                            {/* Child: Handles Damped Parallax */}
+                            {/* 2. TEXT LAYER */}
                             <motion.div
+                                className={`${styles.layer} ${styles.layerMid}`}
                                 style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    x: frontX,
-                                    y: frontY
+                                    x: "-50%",
+                                    y: "-50%",
                                 }}
-                            />
-                        </motion.div>
+                            >
+                                <motion.div style={{ x: midX, y: midY }}>
+                                    <h2 className={styles.titleDark}>
+                                        Los pequeños detalles<br />
+                                        construyen grandes momentos
+                                    </h2>
+                                    <p className={styles.subtitleDark}>
+                                        y la verdadera magia reside<br />
+                                        en lo que a veces no vemos.
+                                    </p>
+                                </motion.div>
+                            </motion.div>
 
+                            {/* 3. FRONT SPHERE LAYER */}
+                            <motion.div
+                                className={`${styles.layer} ${styles.layerFront}`}
+                                style={{
+                                    scale: frontScale,
+                                    backgroundColor: frontColor,
+                                    x: "-50%",
+                                    y: "-50%",
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <motion.div
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        x: frontX,
+                                        y: frontY
+                                    }}
+                                />
+                            </motion.div>
+
+                        </div>
                     </div>
                 </div>
             </div>

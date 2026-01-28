@@ -8,14 +8,14 @@ import StickyCards from '../components/StickyCards/StickyCards';
 function Home() {
 
   return (
-    <>
+    <div className="pages">
       <MouseParallax />
       <TorchEffect />
       <FloatingParticles />
       <TiltEffect />
       <HorizontalScroll />
       <StickyCards />
-    </>
+    </div>
   )
 }
 
