@@ -8,12 +8,14 @@ import styles from './styles/AnimationOne.module.css';
 import { DeepLayer } from './components/DeepLayer';
 import { SphereLayer } from './components/SphereLayer';
 import { TextLayer } from './components/TextLayer';
+import { LogoLayer } from './components/LogoLayer';
+import { ReactLogoLayer } from './components/ReactLogoLayer';
 
 const AnimationOne = () => {
     const scrollerRef = useRef(null);
     const containerRef = useRef(null);
 
-    // Track scroll progress of the 700vh track
+    // Track scroll progress of the virtual track
     const { scrollYProgress } = useScroll({
         target: containerRef,
         container: scrollerRef,
@@ -30,12 +32,14 @@ const AnimationOne = () => {
         frontX, frontY, frontScaleCombined, frontColor,
         text1Z, text1Opacity,
         text2AFinalZ, text2AFinalOpacity,
-        text2BZ, text2BOpacity
+        text2BZ, text2BOpacity,
+        logoOpacity,
+        reactOpacity
     } = useAnimationTransforms(scrollYProgress, layerProps);
 
     return (
         <div ref={scrollerRef} className={styles.viewport} onMouseMove={handleMouseMove}>
-            <div ref={containerRef} className={styles.track}>
+            <div ref={containerRef} className={styles.track} style={{ height: '1800vh' }}>
                 <div className={styles.stickyWrapper}>
                     <div className={styles.container}>
                         <div className={styles.scene}>
@@ -67,7 +71,7 @@ const AnimationOne = () => {
 
                             {/* Text 2A: The Pause */}
                             <TextLayer
-                                x={midX} // Using generic midX (we could have specific ones but it's cleaner)
+                                x={midX}
                                 y={midY}
                                 z={text2AFinalZ}
                                 opacity={text2AFinalOpacity}
@@ -97,6 +101,20 @@ const AnimationOne = () => {
                             <SphereLayer
                                 scale={frontScaleCombined}
                                 backgroundColor={frontColor}
+                                x={frontX}
+                                y={frontY}
+                            />
+
+                            {/* Layer 4: The Logo Reveal (Centered in Sphere) */}
+                            <LogoLayer
+                                opacity={logoOpacity}
+                                x={frontX}
+                                y={frontY}
+                            />
+
+                            {/* Layer 5: React Evolution */}
+                            <ReactLogoLayer
+                                opacity={reactOpacity}
                                 x={frontX}
                                 y={frontY}
                             />
