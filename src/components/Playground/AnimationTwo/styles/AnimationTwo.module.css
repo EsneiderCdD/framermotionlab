@@ -1,0 +1,141 @@
+.viewport {
+    width: 100%;
+    position: relative;
+    /* Removed scroll constraints */
+}
+
+.track {
+    width: 100%;
+    position: relative;
+    /* Height will be set inline */
+}
+
+.stickyWrapper {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    transform: translateZ(0);
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Layer 1: The Yellow Start (Continuity) */
+.layerYellow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #FFEF00;
+    /* Intense Yellow from AnimationOne end */
+    z-index: 1;
+    will-change: opacity;
+}
+
+/* Layer 2: The Dark Background */
+.layerDark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #050505;
+    /* Deep Black */
+    z-index: 2;
+    will-change: opacity;
+}
+
+/* Layer 3: The Golden Grid */
+.grid {
+    position: absolute;
+    top: -50%;
+    /* Oversized to allow movement */
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.4) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.4) 1px, transparent 1px);
+    background-size: 30px 30px;
+    z-index: 3;
+    pointer-events: none;
+    /* mask-image removed */
+    will-change: transform, opacity;
+}
+
+/* Text Styles for AnimationTwo */
+.textContainer {
+    position: absolute;
+    top: 15%;
+    /* Moved up per "mas pegado" request */
+    left: 10%;
+    /* Remove centering transforms */
+    transform: none;
+    text-align: left;
+    z-index: 10;
+    pointer-events: none;
+    mix-blend-mode: normal;
+    color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.textContainerRight {
+    position: absolute;
+    bottom: 15%;
+    /* Symmetrically inverted to top:15% */
+    right: 10%;
+    left: auto;
+    /* Remove centering transforms */
+    transform: none;
+    text-align: right;
+    text-align: right;
+    z-index: 10;
+    pointer-events: none;
+    mix-blend-mode: normal;
+    color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    /* Align children right */
+}
+
+.mainTitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 5rem;
+    /* From snippet */
+    line-height: 0.9;
+    font-weight: 900;
+    margin: 0 0 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: -3px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Align text left */
+}
+
+.titleLine {
+    display: block;
+}
+
+.subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem;
+    /* From snippet */
+    font-weight: 300;
+    margin-top: 0;
+    max-width: 600px;
+    line-height: 1.2;
+    opacity: 0.8;
+}

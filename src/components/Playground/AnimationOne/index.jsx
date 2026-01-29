@@ -11,14 +11,14 @@ import { TextLayer } from './components/TextLayer';
 import { LogoLayer } from './components/LogoLayer';
 import { ReactLogoLayer } from './components/ReactLogoLayer';
 
-const AnimationOne = () => {
+const AnimationOne = ({ scrollContainer }) => {
     const scrollerRef = useRef(null);
     const containerRef = useRef(null);
 
-    // Track scroll progress of the virtual track
+    // Track scroll progress relative to the shared scroll container
     const { scrollYProgress } = useScroll({
         target: containerRef,
-        container: scrollerRef,
+        container: scrollContainer,
         offset: ["start start", "end end"]
     });
 
