@@ -1,22 +1,31 @@
-
 import { useTransform } from 'framer-motion';
 
 export const useAnimationTransforms = (scrollYProgress, layerProps) => {
 
-    // --- PHASE 1: ENTRANCE (0% - 15%) ---
-    const deepScale = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
-    const deepOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 0.3]);
+    // --- TIMELINE SCHEDULE (900vh) ---
+    // 0.00 - 0.12: Entrance
+    // 0.12 - 0.40: Text 1 Read (Window 1)
+    // 0.40 - 0.48: Text 1 Exit
+    // 0.48 - 0.56: Text 2A Enter
+    // 0.56 - 0.64: Text 2A Read (Window 2)
+    // 0.64 - 0.72: Text 2A Exit
+    // 0.72 - 0.80: Text 2B Enter
+    // 0.80 - 0.90: Text 2B Read (Window 3)
+    // 0.90 - 1.00: Text 2B Exit + Halo Reduce
 
-    // --- PHASE 2: PARALLAX & DEVELOPMENT (15% - 50%) ---
-    // Parallax Intensity: 0 -> 1 -> 1 -> 0
-    // Disabled during Phase 1, Active during Phase 2, Disabled for FlyThrough
-    const parallaxIntensity = useTransform(scrollYProgress, [0, 0.15, 0.5, 0.6], [0, 1, 1, 0]);
+    // --- PHASE 1: ENTRANCE (0% - 12%) ---
+    const deepScale = useTransform(scrollYProgress, [0, 0.12], [0, 1]);
 
-    // Helper to dampen parallax
+    // --- MULTI-PHASE PARALLAX LOGIC ---
+    const parallaxIntensity = useTransform(scrollYProgress,
+        // W1(0.12-0.40) -> OFF(0.40-0.56) -> W2(0.56-0.64) -> OFF(0.64-0.80) -> W3(0.80-0.90) -> OFF(0.90+)
+        [0, 0.12, 0.40, 0.56, 0.64, 0.72, 0.80, 0.90, 1],
+        [0, 1, 1, 0, 1, 0, 0, 1, 0]
+    );
+
     function useDampedParallax(parallaxValue) {
         return useTransform([parallaxValue, parallaxIntensity], ([px, intensity]) => px * intensity);
     }
-
     const deepX = useDampedParallax(layerProps.deep.style.x);
     const deepY = useDampedParallax(layerProps.deep.style.y);
     const midX = useDampedParallax(layerProps.mid.style.x);
@@ -24,60 +33,81 @@ export const useAnimationTransforms = (scrollYProgress, layerProps) => {
     const frontX = useDampedParallax(layerProps.front.style.x);
     const frontY = useDampedParallax(layerProps.front.style.y);
 
-    // --- PHASE 3: TEXT 1 EXIT & TEXT 2A ENTRY (50% - 70%) ---
-    // Text 1: "Los pequeños detalles..." -> Exits
-    const text1Z = useTransform(scrollYProgress, [0.5, 0.6], [0, 1000]);
-    const text1Opacity = useTransform(scrollYProgress, [0.5, 0.6], [1, 0]);
-    // Optimization: Hide when fully transparent/gone to save render
-    // We can map opacity 0 -> display "none" using a custom transform if supported, 
-    // or just rely on opacity + pointerEvents usually.
-    // For now, let's keep it simple Math. 
+    // --- TEXT 1 (0.12 - 0.48) ---
+    const text1Z = useTransform(scrollYProgress, [0.40, 0.48], [0, 1000]);
+    const text1Opacity = useTransform(scrollYProgress, [0.40, 0.48], [1, 0]);
 
-    // Text 2A: "Y es en la pausa..." -> Enters (Zoom In)
-    const text2AZ = useTransform(scrollYProgress, [0.55, 0.7], [-2000, 0]);
-    const text2AOpacity = useTransform(scrollYProgress, [0.55, 0.65], [0, 1]);
-
-    // --- PHASE 4: TEXT 2A EXIT & TEXT 2B ENTRY (70% - 90%) ---
-    // Text 2A: Exits FlyThrough
-    // Logic: Enter (-2000 -> 0) -> Hold (0) -> Exit (0 -> 1000)
+    // --- TEXT 2A: "Y es en la pausa..." (0.48 - 0.72) ---
     const text2AFinalZ = useTransform(scrollYProgress, (v) => {
-        if (v < 0.55) return -2000;
-        if (v < 0.7) return -2000 + ((v - 0.55) / 0.15) * 2000; // -2000 -> 0
-        if (v < 0.75) return 0; // Hold small moment
-        if (v < 0.85) return ((v - 0.75) / 0.10) * 1000; // 0 -> 1000
+        if (v < 0.48) return -2000;
+        if (v < 0.56) return -2000 + ((v - 0.48) / 0.08) * 2000; // Enter
+        if (v < 0.64) return 0; // Hold (Window 2)
+        if (v < 0.72) return ((v - 0.64) / 0.08) * 1000; // Exit
         return 1000;
     });
-
-    // Opacity Logic for Text 2A handles both entrance and exit
     const text2AFinalOpacity = useTransform(scrollYProgress, (v) => {
-        if (v < 0.55) return 0;
-        if (v < 0.65) return (v - 0.55) / 0.10; // 0 -> 1
-        if (v < 0.75) return 1;
-        if (v < 0.85) return 1 - (v - 0.75) / 0.10; // 1 -> 0
+        if (v < 0.48) return 0;
+        if (v < 0.56) return (v - 0.48) / 0.08;
+        if (v < 0.64) return 1;
+        if (v < 0.72) return 1 - (v - 0.64) / 0.08;
         return 0;
     });
 
-    // Text 2B: "para transformar lo ordinario..." -> Enters
-    const text2BZ = useTransform(scrollYProgress, [0.8, 0.95], [-2000, 0]);
-    const text2BOpacity = useTransform(scrollYProgress, [0.8, 0.95], [0, 1]);
+    // --- TEXT 2B: "para transformar..." (0.72 - 1.0) ---
+    // Enter: 0.72 - 0.80
+    // Read: 0.80 - 0.90 (Window 3)
+    // Exit: 0.90 - 1.00 (FlyThrough)
+
+    // Z-Axis Logic
+    const text2BZ = useTransform(scrollYProgress, (v) => {
+        if (v < 0.72) return -2000;
+        if (v < 0.80) return -2000 + ((v - 0.72) / 0.08) * 2000; // Enter
+        if (v < 0.90) return 0; // Hold (Window 3)
+        if (v < 1.00) return ((v - 0.90) / 0.10) * 1000; // Exit
+        return 1000;
+    });
+
+    const text2BOpacity = useTransform(scrollYProgress, (v) => {
+        if (v < 0.72) return 0;
+        if (v < 0.80) return (v - 0.72) / 0.08;
+        if (v < 0.90) return 1;
+        if (v < 1.00) return 1 - (v - 0.90) / 0.10;
+        return 0;
+    });
 
 
     // --- GLOBAL SPHERE ANIMATION ---
-    // Color: Yellow -> Orange (Phase 4)
-    const frontColor = useTransform(scrollYProgress,
-        [0, 0.15, 0.7, 0.9],
-        ["#fffde7", "#ffe10058", "#ffe10058", "#ff6b0080"]
-    );
+    // Color: Keeps Yellow (NO ORANGE TRANSITION)
+    const frontColor = useTransform(scrollYProgress, [0, 1], ["#fffde7", "#ffe10058"]);
 
-    // Scale Logic
+    // Scale Logic: Pause during Windows (0.12-0.40, 0.56-0.64, 0.80-0.90)
     const frontScaleCombined = useTransform(scrollYProgress, (v) => {
-        if (v < 0.15) return 0.1 + (v / 0.15) * 0.9; // 0.1 -> 1
-        if (v < 0.55) return 1; // Static
-        if (v < 0.7) return 1 + ((v - 0.55) / 0.15) * 0.2; // 1 -> 1.2
-        if (v < 0.8) return 1.2;
-        if (v < 0.95) return 1.2 + ((v - 0.8) / 0.15) * 0.1; // 1.2 -> 1.3 (Heavy)
+        // Window 1
+        if (v < 0.12) return 0.1 + (v / 0.12) * 0.9;
+        if (v < 0.40) return 1;
+
+        // Transition 1
+        if (v < 0.56) return 1 + ((v - 0.40) / 0.16) * 0.2; // 1 -> 1.2
+
+        // Window 2
+        if (v < 0.64) return 1.2;
+
+        // Transition 2 (Heavy)
+        if (v < 0.80) return 1.2 + ((v - 0.64) / 0.16) * 0.1; // 1.2 -> 1.3
+
+        // Window 3
+        if (v < 0.90) return 1.3;
+
+        // FINAL EXIT: Hold
         return 1.3;
     });
+
+    // --- HALO/BACKGROUND REDUCTION (0.90 - 1.00) ---
+    // The "Big Blurry Halo" is the Layer Deep. We fade it out here.
+    const deepOpacity = useTransform(scrollYProgress,
+        [0, 0.08, 0.90, 1.00],
+        [0, 0.3, 0.3, 0] // Fade In -> Hold -> Fade Out
+    );
 
     return {
         deepScale, deepOpacity, deepX, deepY,
