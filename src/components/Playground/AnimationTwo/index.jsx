@@ -5,6 +5,7 @@ import styles from './styles/AnimationTwo.module.css';
 import { GridLayer } from './components/GridLayer';
 import { TextLayerTwo } from './components/TextLayerTwo';
 import { TextLayerRight } from './components/TextLayerRight';
+import { TiltCardLayer } from './components/TiltCardLayer';
 import { useAnimationTwoTransforms } from './hooks/useAnimationTwoTransforms';
 
 const AnimationTwo = ({ scrollContainer }) => {
@@ -28,7 +29,9 @@ const AnimationTwo = ({ scrollContainer }) => {
         textScale,
         textRightOpacity,
         textRightY,
-        textRightScale
+        textRightScale,
+        cardOpacity, // New
+        cardScale    // New
     } = useAnimationTwoTransforms(scrollYProgress);
 
     return (
@@ -62,6 +65,12 @@ const AnimationTwo = ({ scrollContainer }) => {
                             opacity={textRightOpacity}
                             y={textRightY}
                             scale={textRightScale}
+                        />
+
+                        {/* Layer 6: Final Interactive Card */}
+                        <TiltCardLayer
+                            opacity={cardOpacity}
+                            scale={cardScale}
                         />
 
                     </div>

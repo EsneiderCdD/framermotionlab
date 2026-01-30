@@ -17,19 +17,24 @@ export const useAnimationTwoTransforms = (scrollYProgress) => {
     const gridOpacity = useTransform(scrollYProgress, [0.0, 0.15], [0, 1]);
 
     // 3. Grid Movement (Simulate flight or depth)
-    // "mas visual, mas profundidad" -> Increased range again, balanced.
-    const gridScale = useTransform(scrollYProgress, [0, 1.0], [0.8, 1.1]); // Grows to >1.0 for immersion
-    const gridRotateX = useTransform(scrollYProgress, [0, 1.0], [5, 25]); // Tilt increases noticeably to show depth
+    // "velemente la grilla continue... acercamiento leve hacia una profundidad"
+    const gridScale = useTransform(scrollYProgress, [0, 1.0], [0.8, 1.5]); // Continues growing past screen edges (immersive)
+    const gridRotateX = useTransform(scrollYProgress, [0, 1.0], [5, 30]); // Continues tilting
 
     // 4. Text Left Entry & Exit
-    const textOpacity = useTransform(scrollYProgress, [0.15, 0.35, 0.45, 0.55], [0, 1, 1, 0]); // Fade IN then OUT
+    const textOpacity = useTransform(scrollYProgress, [0.15, 0.35, 0.45, 0.55], [0, 1, 1, 0]);
     const textY = useTransform(scrollYProgress, [0.15, 0.35], [30, 0]);
     const textScale = useTransform(scrollYProgress, [0.15, 0.35], [0.95, 1]);
 
-    // 5. Text Right Entry (New Phase)
-    const textRightOpacity = useTransform(scrollYProgress, [0.6, 0.8], [0, 1]);
-    const textRightY = useTransform(scrollYProgress, [0.6, 0.8], [30, 0]);
-    const textRightScale = useTransform(scrollYProgress, [0.6, 0.8], [0.95, 1]);
+    // 5. Text Right Entry & Exit
+    const textRightOpacity = useTransform(scrollYProgress, [0.6, 0.7, 0.85, 0.95], [0, 1, 1, 0]);
+    const textRightY = useTransform(scrollYProgress, [0.6, 0.7], [30, 0]);
+    const textRightScale = useTransform(scrollYProgress, [0.6, 0.7], [0.95, 1]);
+
+    // 6. Final Card Entry ("vaya apareciendo desde el centro")
+    const cardOpacity = useTransform(scrollYProgress, [0.85, 0.95], [0, 1]);
+    const cardScale = useTransform(scrollYProgress, [0.85, 1.0], [0.5, 1]);
+    // Note: cardRotation comes from internal mouse interaction, not scroll here.
 
     return {
         yellowOpacity,
@@ -41,6 +46,8 @@ export const useAnimationTwoTransforms = (scrollYProgress) => {
         textScale,
         textRightOpacity,
         textRightY,
-        textRightScale
+        textRightScale,
+        cardOpacity,
+        cardScale
     };
 };
