@@ -4,6 +4,7 @@ import { useScroll, motion } from 'framer-motion';
 import styles from './styles/AnimationTwo.module.css';
 import { GridLayer } from './components/GridLayer';
 import { TextLayerTwo } from './components/TextLayerTwo';
+import { TextLayerAuthor } from './components/TextLayerAuthor';
 import { TextLayerRight } from './components/TextLayerRight';
 import { TiltCardLayer } from './components/TiltCardLayer';
 import { useAnimationTwoTransforms } from './hooks/useAnimationTwoTransforms';
@@ -27,16 +28,19 @@ const AnimationTwo = ({ scrollContainer }) => {
         textOpacity,
         textY,
         textScale,
+        authorOpacity, // New Author Text Params
+        authorY,
+        authorScale,
         textRightOpacity,
         textRightY,
         textRightScale,
-        cardOpacity, // New
-        cardScale    // New
+        cardOpacity,
+        cardScale
     } = useAnimationTwoTransforms(scrollYProgress);
 
     return (
         <div ref={scrollerRef} className={styles.viewport}>
-            <div ref={containerRef} className={styles.track} style={{ height: '400vh' }}>
+            <div ref={containerRef} className={styles.track} style={{ height: '500vh' }}> {/* Extended height to 500vh for slower feel */}
                 <div className={styles.stickyWrapper}>
                     <div className={styles.container} style={{ perspective: '1000px' }}>
 
@@ -58,6 +62,13 @@ const AnimationTwo = ({ scrollContainer }) => {
                             opacity={textOpacity}
                             y={textY}
                             scale={textScale}
+                        />
+
+                        {/* Layer 4.5: Author Text Content (Below Left) */}
+                        <TextLayerAuthor
+                            opacity={authorOpacity}
+                            y={authorY}
+                            scale={authorScale}
                         />
 
                         {/* Layer 5: Text Content Right */}

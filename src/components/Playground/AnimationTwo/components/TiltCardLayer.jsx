@@ -59,8 +59,25 @@ export const TiltCardLayer = ({ opacity, scale, rotateYGlobal }) => {
                 }}
             >
                 <div className={styles.cardContent}>
-                    <div className={styles.cardTitle}>FINAL</div>
-                    <div className={styles.cardSubtitle}>Interact with me</div>
+                    {/* 1. Animated Sphere */}
+                    <div className={styles.sphereContainer}>
+                        <motion.div
+                            className={styles.animatedSphere}
+                            animate={{ x: [-20, 20, -20] }}
+                            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                        />
+                    </div>
+
+                    {/* 2. Dummy Buttons */}
+                    <div className={styles.buttonGroup}>
+                        <div className={styles.dummyButton}></div>
+                        <div className={styles.dummyButton}></div>
+                    </div>
+
+                    {/* 3. Bottom Text */}
+                    <div className={styles.bottomText}>
+                        <p>Explicaciones y código listo<br />para revelar sus secretos</p>
+                    </div>
                 </div>
             </motion.div>
         </motion.div>

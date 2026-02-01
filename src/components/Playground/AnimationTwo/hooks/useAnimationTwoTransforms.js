@@ -21,15 +21,22 @@ export const useAnimationTwoTransforms = (scrollYProgress) => {
     const gridScale = useTransform(scrollYProgress, [0, 1.0], [0.8, 1.5]); // Continues growing past screen edges (immersive)
     const gridRotateX = useTransform(scrollYProgress, [0, 1.0], [5, 30]); // Continues tilting
 
-    // 4. Text Left Entry & Exit
-    const textOpacity = useTransform(scrollYProgress, [0.15, 0.35, 0.45, 0.55], [0, 1, 1, 0]);
-    const textY = useTransform(scrollYProgress, [0.15, 0.35], [30, 0]);
-    const textScale = useTransform(scrollYProgress, [0.15, 0.35], [0.95, 1]);
+    // 4. Text Left Entry & Exit (FRAMER MOTION...)
+    const textOpacity = useTransform(scrollYProgress, [0.15, 0.25, 0.30, 0.40], [0, 1, 1, 0]);
+    const textY = useTransform(scrollYProgress, [0.15, 0.25], [30, 0]);
+    const textScale = useTransform(scrollYProgress, [0.15, 0.25], [0.95, 1]);
 
-    // 5. Text Right Entry & Exit
-    const textRightOpacity = useTransform(scrollYProgress, [0.6, 0.7, 0.85, 0.95], [0, 1, 1, 0]);
-    const textRightY = useTransform(scrollYProgress, [0.6, 0.7], [30, 0]);
-    const textRightScale = useTransform(scrollYProgress, [0.6, 0.7], [0.95, 1]);
+    // 4.5. Author Text (NEW - By Esneider...)
+    // Aparece justo cuando el anterior se desvanece o poco despues
+    const authorOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.50, 0.60], [0, 1, 1, 0]);
+    const authorY = useTransform(scrollYProgress, [0.35, 0.45], [30, 0]);
+    const authorScale = useTransform(scrollYProgress, [0.35, 0.45], [0.95, 1]);
+
+    // 5. Text Right Entry & Exit (Dynamic System...)
+    // Shifted later to accommodate Author Text
+    const textRightOpacity = useTransform(scrollYProgress, [0.65, 0.75, 0.85, 0.95], [0, 1, 1, 0]);
+    const textRightY = useTransform(scrollYProgress, [0.65, 0.75], [30, 0]);
+    const textRightScale = useTransform(scrollYProgress, [0.65, 0.75], [0.95, 1]);
 
     // 6. Final Card Entry ("vaya apareciendo desde el centro")
     const cardOpacity = useTransform(scrollYProgress, [0.85, 0.95], [0, 1]);
@@ -47,6 +54,9 @@ export const useAnimationTwoTransforms = (scrollYProgress) => {
         textRightOpacity,
         textRightY,
         textRightScale,
+        authorOpacity,
+        authorY,
+        authorScale,
         cardOpacity,
         cardScale
     };
